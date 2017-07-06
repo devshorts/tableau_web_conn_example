@@ -8,7 +8,7 @@
   // See part II. of this tutorial for an example of how
   // to do a server-side OAuth flow and avoid this problem
   var config = {
-      clientId: 'YOUR_CLIENT_ID',
+      clientId: 'LL3RISO2NCPE54NCYOHQEYH3GRURSIGEREGQSF0RIHCX3PHX',
       redirectUri: 'http://localhost:3333/redirect',
       authUrl: 'https://foursquare.com/',
       version: '20150901'
@@ -53,8 +53,9 @@
   // This helper function returns the URI for the venueLikes endpoint
   // It appends the passed in accessToek to the call to personalize the call for the user
   function getVenueLikesURI(accessToken) {
-      return "https://api.foursquare.com/v2/users/self/venuelikes?oauth_token=" +
-              accessToken + "&v=" + config.version;
+    return "http://localhost:3333/foursquare?config="+config.version
+      // return "https://api.foursquare.com/v2/users/self/venuelikes?oauth_token=" +
+      //         accessToken + "&v=" + config.version;
   }
 
   // This function togglels the label shown depending
@@ -142,10 +143,14 @@
       var accessToken = tableau.password;
       var connectionUri = getVenueLikesURI(accessToken);
 
+      console.log("Calling remote api for data: " + connectionUri);
+
       var xhr = $.ajax({
           url: connectionUri,
           dataType: 'json',
           success: function (data) {
+              console.log("Got a response from remote data: " + JSON.stringify(data));
+
               if (data.response) {
                   var venues = data.response.venues.items;
 
